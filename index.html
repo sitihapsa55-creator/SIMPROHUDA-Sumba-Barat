@@ -1,57 +1,45 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SIMPROHUDA - Sistem Informasi Monitoring Produk Hukum Daerah</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SIMPROHUDA • Kabupaten Sumba Barat</title>
+<link rel="stylesheet" href="style.css">
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#0a2139 0%,#123f5c 52%,#e9f1ef 52%,#f7faf9 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box}
+.box{width:min(920px,100%);background:#fff;border-radius:24px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 25px 70px #00192d44}
+.brand{background:linear-gradient(145deg,#0c2943,#164f5a);color:white;padding:48px;display:flex;flex-direction:column;justify-content:center}
+.logo{width:110px;height:110px;background:white;border-radius:20px;padding:8px;box-sizing:border-box;margin-bottom:25px}.logo img{width:100%;height:100%;object-fit:contain}
+.brand h1{font-size:36px;margin:0 0 12px}.brand p{line-height:1.7;color:#dcebea}.small{font-size:12px;color:#b8d7d4;letter-spacing:1.5px;font-weight:bold}
+.panel{padding:48px;display:flex;align-items:center}.card{width:100%;max-width:360px}.card h2{color:#142c42;margin:0 0 8px;font-size:28px}.welcome{color:#718096;font-size:13px;line-height:1.6;margin-bottom:25px}
+label{display:block;font-size:12px;font-weight:bold;color:#34445a;margin:0 0 7px}.field{margin-bottom:17px}input{width:100%;padding:14px;border:1px solid #d8e0e8;border-radius:10px;box-sizing:border-box;font-size:14px;outline:none}input:focus{border-color:#176b72;box-shadow:0 0 0 4px #176b7215}
+button{width:100%;padding:14px;border:0;border-radius:10px;background:linear-gradient(90deg,#0e5960,#176f70);color:white;font-weight:bold;cursor:pointer;font-size:14px}.error{display:none;background:#fff1f1;color:#b42318;padding:10px;border-radius:9px;margin-top:12px;text-align:center;font-size:12px}.demo{margin-top:20px;padding-top:16px;border-top:1px solid #edf0f3;font-size:10px;color:#87919e;line-height:1.7;text-align:center}
+@media(max-width:700px){.box{grid-template-columns:1fr}.brand{padding:30px;min-height:240px}.panel{padding:32px 25px}.brand h1{font-size:29px}.logo{width:82px;height:82px}}
+</style>
 </head>
 <body>
-  <div class="app-shell">
-    <aside class="sidebar" id="sidebar">
-      <div class="brand">
-        <div class="brand-logo"><img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Lambang_Kabupaten_Sumba_Barat.gif" alt="Lambang Kabupaten Sumba Barat"></div>
-        <div>
-          <h1>SIMPROHUDA</h1>
-          <p>Produk Hukum Daerah</p>
-        </div>
-      </div>
-      <nav class="nav">
-        <button class="nav-item active" data-page="dashboard"><span>▦</span> Dashboard</button>
-        <button class="nav-item" data-page="produk"><span>▤</span> Produk Hukum</button>
-        <button class="nav-item" data-page="dokumen"><span>▧</span> Dokumen</button>
-        <button class="nav-item" data-page="pencarian"><span>⌕</span> Pencarian</button>
-        <button class="nav-item" data-page="pengguna"><span>♙</span> Pengguna</button>
-      </nav>
-      <div class="sidebar-footer">
-        <div class="role-card">
-          <small>Login sebagai</small>
-          <strong id="currentRole">Admin</strong>
-          <select id="roleSelect" aria-label="Pilih peran">
-            <option>Admin</option><option>Perancang/Petugas</option><option>Pimpinan</option><option>Pemrakarsa</option>
-          </select>
-        </div>
-        <p>Versi 1.0 • Prototype</p>
-      </div>
-    </aside>
-    <main class="main">
-      <header class="topbar">
-        <button class="menu-btn" id="menuBtn">☰</button>
-        <div><h2 id="pageTitle">Dashboard</h2><p id="pageSubtitle">Monitoring Produk Hukum Daerah secara terpusat</p></div>
-        <div class="top-actions"><span class="today" id="today"></span><button class="btn btn-primary" id="quickAddBtn">＋ Tambah Produk</button></div>
-      </header>
-      <section id="page-dashboard" class="page active-page">
-        <div class="hero"><div><p class="eyebrow">Sistem Informasi Monitoring</p><h3>Selamat datang di SIMPROHUDA</h3><p>Monitor progres Perda dan Perbup dari penyusunan sampai selesai dalam satu sistem.</p></div><div class="hero-icon">⚖</div></div>
-        <div class="stats-grid" id="statsGrid"></div>
-        <div class="grid-2"><section class="card"><div class="card-head"><div><h3>Progres Tahapan</h3><p>Distribusi produk hukum berdasarkan tahap saat ini.</p></div></div><div id="stageBars" class="stage-bars"></div></section><section class="card"><div class="card-head"><div><h3>Perlu Perhatian</h3><p>Produk hukum yang mendekati atau melewati target.</p></div></div><div id="attentionList"></div></section></div>
-      </section>
-      <section id="page-produk" class="page"><div class="card"><div class="card-head"><div><h3>Produk Hukum</h3><p>Daftar Perda dan Perbup yang dimonitor.</p></div><button class="btn btn-primary" id="addBtn">＋ Tambah Produk</button></div><div class="toolbar"><input id="productSearch" placeholder="Cari nomor, judul, pemrakarsa..."><select id="typeFilter"><option value="">Semua jenis</option><option>Perda</option><option>Perbup</option></select><select id="stageFilter"><option value="">Semua tahap</option></select></div><div class="table-wrap"><table><thead><tr><th>Produk</th><th>Pemrakarsa</th><th>Tahap</th><th>Target</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="productTable"></tbody></table></div></div></section>
-      <section id="page-dokumen" class="page"><div class="card"><div class="card-head"><div><h3>Dokumen</h3><p>Informasi berkas pada setiap tahapan produk hukum.</p></div></div><div class="toolbar"><input id="docSearch" placeholder="Cari dokumen atau produk..."></div><div class="table-wrap"><table><thead><tr><th>Nama Berkas</th><th>Produk</th><th>Tahap</th><th>Tanggal</th><th>Ukuran</th></tr></thead><tbody id="docTable"></tbody></table></div></div></section>
-      <section id="page-pencarian" class="page"><div class="card"><div class="card-head"><div><h3>Pencarian</h3><p>Cari produk hukum dan dokumen secara cepat.</p></div></div><div class="search-big"><input id="globalSearch" placeholder="Ketik kata kunci..."><button class="btn btn-primary" id="globalSearchBtn">Cari</button></div><div id="searchResults"></div></div></section>
-      <section id="page-pengguna" class="page"><div class="card"><div class="card-head"><div><h3>Pengguna & Hak Akses</h3><p>Simulasi peran pengguna pada prototype.</p></div></div><div class="users-grid"><div class="user-box"><b>Admin</b><span>Kelola seluruh data dan pengguna.</span></div><div class="user-box"><b>Perancang/Petugas</b><span>Input dan monitoring produk hukum.</span></div><div class="user-box"><b>Pimpinan</b><span>Melihat progres dan laporan.</span></div><div class="user-box"><b>Pemrakarsa</b><span>Melihat dan memperbarui produk yang diusulkan.</span></div></div></div></section>
-    </main>
-  </div>
-  <div class="modal" id="modal"><div class="modal-box"><div class="modal-head"><h3 id="modalTitle">Tambah Produk</h3><button class="close" id="closeModal">×</button></div><form id="productForm"><input type="hidden" id="editId"><div class="form-grid"><label>Jenis<select id="fType" required><option>Perda</option><option>Perbup</option></select></label><label>Nomor<input id="fNumber" required></label><label>Tahun<input id="fYear" type="number" required></label><label>Pemrakarsa<input id="fOwner" required></label><label class="full">Judul<textarea id="fTitle" required></textarea></label><label>Tanggal Mulai<input id="fStart" type="date" required></label><label>Target Selesai<input id="fTarget" type="date" required></label><label>Tahap<select id="fStage" required></select></label><label class="full">Catatan<textarea id="fNotes"></textarea></label></div><div class="modal-actions"><button type="button" class="btn btn-light" id="cancelModal">Batal</button><button type="submit" class="btn btn-primary">Simpan</button></div></form></div></div>
-  <script src="script.js"></script>
-</body>
-</html>
+<div class="box">
+<div class="brand">
+<div class="logo"><img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Lambang_Kabupaten_Sumba_Barat.gif" alt="Logo Kabupaten Sumba Barat"></div>
+<div class="small">SISTEM INFORMASI MONITORING</div>
+<h1>SIMPROHUDA</h1>
+<p>Monitoring Produk Hukum Daerah Kabupaten Sumba Barat secara terpusat, dari penyusunan sampai selesai.</p>
+</div>
+<div class="panel"><div class="card">
+<h2>Selamat Datang</h2><p class="welcome">Silakan masukkan username dan password untuk masuk ke aplikasi.</p>
+<form id="loginForm">
+<div class="field"><label>Username</label><input id="username" autocomplete="username" required></div>
+<div class="field"><label>Password</label><input id="password" type="password" autocomplete="current-password" required></div>
+<button type="submit">MASUK KE APLIKASI</button><div id="error" class="error">Username atau password salah.</div>
+</form>
+<div class="demo"><b>Akun demo:</b> admin / admin123 &nbsp;•&nbsp; perancang / perancang123<br>pimpinan / pimpinan123 &nbsp;•&nbsp; pemrakarsa / pemrakarsa123</div>
+</div></div>
+</div>
+<script>
+const users={admin:"admin123",perancang:"perancang123",pimpinan:"pimpinan123",pemrakarsa:"pemrakarsa123"};
+document.getElementById("loginForm").addEventListener("submit",function(e){
+ e.preventDefault();const u=document.getElementById("username").value.trim().toLowerCase(),p=document.getElementById("password").value;
+ if(users[u]===p){sessionStorage.setItem("simprohuda_login","1");sessionStorage.setItem("simprohuda_user",u);location.href="app.html";}
+ else document.getElementById("error").style.display="block";
+});
+</script>
+</body></html>
